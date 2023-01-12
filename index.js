@@ -9,6 +9,7 @@ async function getLunoBTCPrice() {
     let MYRprice = Number((result.asks[0].price)).toFixed()
     console.log(`BTCMYR price on Luno: MYR ${MYRprice}`)
     let USDprice = await getBTCUSDPrice(MYRprice)
+    return USDprice
     // https://www.branch.io/glossary/query-parameters/
 }
 
@@ -24,23 +25,32 @@ async function getBTCUSDPrice(price) {
 
     let data = await fetch(`https://api.apilayer.com/fixer/convert?to=USD&from=MYR&amount=${price}`, requestOptions)
     let convertData = await data.json()
-    let USDprice = convertData.result
-    console.log(`USDMYR: ${price/(USDprice)}`)
-    console.log(`BTCUSD price on Luno: ${USDprice}`)
+    priceConversion(price, convertData.result)
+    return Number(convertData.result)
 }
 
-
-
+async function priceConversion(MYprice, lunoPrice) {
+    console.log(`USDMYR: ${MYprice/(lunoPrice)}`)
+    console.log(`BTCUSD price on Luno: ${lunoPrice}`)
+}
 
 async function getBinanceBTCPrice() {
-    let btcprice = await binance.prices('BTCBUSD', (error, ticker) => {
-        console.info("BTCUSD price on Binance: ", ticker.BTCBUSD);
-      });
+    let ticker = await binance.prices()
+    console.info("BTCUSD price on Binance: ", ticker.BTCBUSD);
+    return Number(ticker.BTCBUSD)
+}
+
+async function getPriceDiff(lunoPrice, binancePrice) {
+    let priceDiff = Number(lunoPrice - binancePrice)
+    let diffPercentage = (priceDiff/lunoPrice) * 100
+    console.log(`Price difference: ${priceDiff}`)
+    console.log(`Luno Premium: ${diffPercentage} %`)
 }
 
 async function getPrice() {
-    await getLunoBTCPrice()
-    await getBinanceBTCPrice()
+    let lunoPrice = await getLunoBTCPrice()
+    let binancePrice = await getBinanceBTCPrice()
+    await getPriceDiff(lunoPrice, binancePrice)
 }
 
 getPrice()
