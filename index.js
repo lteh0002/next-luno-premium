@@ -1,5 +1,8 @@
-const Binance = require('node-binance-api');
-require('dotenv').config()
+// const Binance = require('node-binance-api');
+import Binance from 'node-binance-api'
+// import env from 'dotenv'
+import * as env from 'dotenv'
+env.config()
 
 const binance = new Binance()
 
