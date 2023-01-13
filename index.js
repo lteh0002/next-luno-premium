@@ -77,14 +77,19 @@ async function getPriceDiff(lunoPrice, binancePrice) {
 }
 
 async function loopFetchPrice(lunoPrice, binancePrice, priceDiff, userInput) {
-    let i = 3
-    let loop = setInterval(async function() {
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function loop() {
+    for (let i = 1; i < 4; i++) {
+        console.log(`Loop ${i}st time...`);
         await getPrice(lunoPrice, binancePrice, priceDiff, userInput)
-        i--;
-        if (i === 0) {
-            clearInterval(loop)
-        }
-    }, 3000)
+        await sleep(3000);
+    }
+    console.log('Done');
+  }
+  loop();
 }
 
 async function getPrice(lunoPrice, binancePrice, priceDiff, userInput) {
