@@ -8,27 +8,22 @@ env.config()
 
 const binance = new Binance()
 
+function leftFillNum(num, targetLength) {
+    return num.toString().padEnd(targetLength, ' ');
+}
+
 async function getUserPrompt() {
     let userInput = await prompt.get(['ticker']);
     let tokenTicker = (userInput.ticker).toUpperCase()
     let coin
-    switch(tokenTicker) {
-        case 'BTC':
-            coin = 'XBT'
-            break
-        case 'ETH':
-            coin = tokenTicker
-            break
-        case 'XRP':
-            coin = tokenTicker
-            break
-        case 'LTC':
-            coin = tokenTicker
-            break
-        default:
-            console.log('Please only insert BTC, ETH, XRP or LTC')
-            return getUserPrompt()
-            
+
+    if (tokenTicker === 'XBT') {
+        coin = 'XBT'
+    } else if (tokenTicker === 'ETH' || tokenTicker === 'XRP' || tokenTicker === 'LTC') {
+        coin = tokenTicker
+    } else if (tokenTicker !== 'ETH' || tokenTicker !== 'XRP' || tokenTicker !== 'LTC'){
+        console.log('Please only insert BTC, ETH, XRP or LTC')
+        return getUserPrompt()
     }
     return coin
 }
@@ -37,7 +32,7 @@ async function getLunoTokenPrice(ticker) {
     const data = await fetch(`https://api.luno.com/api/1/orderbook_top?pair=${ticker}MYR`)
     const result = await data.json()
     let MYRprice = Number((result.asks[0].price)).toFixed()
-    console.log(`${ticker}MYR price on Luno: MYR ${MYRprice}`)
+    console.log(leftFillNum(`${ticker}MYR price on Luno: `, 26) + `MYR ${MYRprice}`)
     let USDprice = await getTokenUSDPrice(MYRprice, ticker)
     return USDprice
     // https://www.branch.io/glossary/query-parameters/
@@ -60,8 +55,8 @@ async function getTokenUSDPrice(price, ticker) {
 }
 
 async function priceConversion(MYprice, lunoPrice, ticker) {
-    console.log(`USDMYR: ${MYprice/(lunoPrice)}`)
-    console.log(`${ticker}USD price on Luno: ${lunoPrice}`)
+    console.log(leftFillNum(`USDMYR: `, 26) + `${MYprice/(lunoPrice)}`)
+    console.log(leftFillNum(`${ticker}USD price on Luno: `, 26) + lunoPrice)
 }
 
 async function getBinancePrice(coinTicker) {
@@ -77,16 +72,31 @@ async function getBinancePrice(coinTicker) {
 async function getPriceDiff(lunoPrice, binancePrice) {
     let priceDiff = Number(lunoPrice - binancePrice)
     let diffPercentage = (priceDiff/lunoPrice) * 100
-    console.log(`Price difference: ${priceDiff}`)
-    console.log(`Luno Premium: ${diffPercentage} %`)
+    console.log(leftFillNum(`Price difference: `, 26) + priceDiff)
+    console.log(leftFillNum(`Luno Premium: `, 26) + `${diffPercentage} %`)
 }
 
-async function getPrice() {
+async function loopFetchPrice(lunoPrice, binancePrice, priceDiff, userInput) {
+    let i = 3
+    let loop = setInterval(async function() {
+        await getPrice(lunoPrice, binancePrice, priceDiff, userInput)
+        i--;
+        if (i === 0) {
+            clearInterval(loop)
+        }
+    }, 3000)
+}
+
+async function getPrice(lunoPrice, binancePrice, priceDiff, userInput) {
+  let priceLuno = await lunoPrice(userInput);
+  let priceBinance = await binancePrice(userInput);
+  await priceDiff(priceLuno, priceBinance);
+}
+
+async function getTokenPrice() {
     let userPrompt = await getUserPrompt()
-    let lunoPrice = await getLunoTokenPrice(userPrompt)
-    let binancePrice = await getBinancePrice(userPrompt)
-    await getPriceDiff(lunoPrice, binancePrice)
+    let printPrice = await loopFetchPrice(getLunoTokenPrice, getBinancePrice, getPriceDiff, userPrompt)
 }
 
-getPrice()
+getTokenPrice()
 
