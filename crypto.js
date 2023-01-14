@@ -29,6 +29,9 @@ async function getLunoTokenMYRPrice(ticker) {
     const data = await fetch(`https://api.luno.com/api/1/orderbook_top?pair=${ticker}MYR`)
     const result = await data.json()
     return Number((result.asks[0].price)).toFixed()
+    // console.log(leftFillNum(`${ticker}MYR price on Luno: `, 26) + `MYR ${MYRprice}`)
+    // let USDprice = await getTokenUSDPrice(MYRprice, ticker)
+    // return USDprice
     // https://www.branch.io/glossary/query-parameters/
 }
 
@@ -45,6 +48,8 @@ async function getUSDMYRForexRate() {
     let data = await fetch('https://api.apilayer.com/fixer/latest?symbols=MYR&base=USD', requestOptions)
     let convertData = await data.json()
     return Number(convertData.rates['MYR'])
+    // priceConversion(price, convertData.result, ticker)
+    // return Number(convertData.rates[tokenMYR])
 }
 
 async function getLunoTokenUSDPrice(tokenMYR, rate) {

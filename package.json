@@ -1,7 +1,7 @@
 {
-  "name": "odin-restaurant-page",
+  "name": "next-luno-module",
   "version": "1.0.0",
-  "description": "odin-restaurant-page",
+  "description": "next-luno-module",
   "type": "module",
   "main": "index.js",
   "scripts": {
