@@ -73,6 +73,21 @@ async function printStatement(userPrompt, tokenLunoMYR, USDMYR, tokenBinanceUSD,
     console.log(leftFillNum(`Luno Premium: `, 26) + `${tokenPremium} %`)
 }
 
+async function obtainPrice(userPrompt) {
+    const [tokenLunoMYR, USDMYR, tokenBinanceUSD] = await Promise.all([
+        getLunoTokenMYRPrice(userPrompt), 
+        getUSDMYRForexRate(), 
+        getBinanceUSDPrice(userPrompt)
+        ])
+        let tokenLunoUSD = await getLunoTokenUSDPrice(tokenLunoMYR, USDMYR)
+        let tokenPriceDiff = await getPriceDifference(tokenLunoUSD, tokenBinanceUSD)
+        let tokenPremium = await getPricePremium(tokenPriceDiff, tokenLunoUSD)
+        let print = printStatement(
+            userPrompt, tokenLunoMYR, USDMYR, 
+            tokenBinanceUSD, tokenLunoUSD,tokenPriceDiff, 
+            tokenPremium)
+}
+
 async function loopFetchPrice(userPrompt) {
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -81,18 +96,7 @@ async function loopFetchPrice(userPrompt) {
     async function loop() {
       for (let i = 1; i < 4; i++) {
           console.log(`Loop ${i}st time...`);
-          const [tokenLunoMYR, USDMYR, tokenBinanceUSD] = await Promise.all([
-            getLunoTokenMYRPrice(userPrompt), 
-            getUSDMYRForexRate(), 
-            getBinanceUSDPrice(userPrompt)
-            ])
-            let tokenLunoUSD = await getLunoTokenUSDPrice(tokenLunoMYR, USDMYR)
-            let tokenPriceDiff = await getPriceDifference(tokenLunoUSD, tokenBinanceUSD)
-            let tokenPremium = await getPricePremium(tokenPriceDiff, tokenLunoUSD)
-            let print = printStatement(
-                userPrompt, tokenLunoMYR, USDMYR, 
-                tokenBinanceUSD, tokenLunoUSD,tokenPriceDiff, 
-                tokenPremium)
+                await obtainPrice(userPrompt)
                 await sleep(3000);
             }
             console.log('Done');
