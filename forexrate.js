@@ -1,4 +1,4 @@
-export default async function getUSDMYRForexRate() {
+export async function getUSDMYRForexRate() {
     var myHeaders = new Headers();
     myHeaders.append("apikey", process.env.YOUR_API);
 
