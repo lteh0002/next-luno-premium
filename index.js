@@ -1,59 +1,16 @@
-import Binance from 'node-binance-api'
 import * as env from 'dotenv'
-import prompt from 'prompt'
-prompt.start()
 env.config()
-const binance = new Binance()
+import getUserPrompt from './userprompt.js'
+import getLunoTokenMYRPrice from './luno.js'
+import getUSDMYRForexRate from './forexrate.js'
+import { getBinanceUSDPrice }from './binance.js'
 
 function leftFillNum(num, targetLength) {
     return num.toString().padEnd(targetLength, ' ');
 }
 
-async function getUserPrompt() {
-    let userInput = await prompt.get(['ticker']);
-    let tokenTicker = (userInput.ticker).toUpperCase()
-    let coin
-
-    if (tokenTicker === 'BTC' || tokenTicker === 'ETH' || tokenTicker === 'XRP' || tokenTicker === 'LTC') {
-        return tokenTicker
-    } else {
-        console.log('Please only insert BTC, ETH, XRP or LTC')
-        return getUserPrompt()
-    }
-}
-
-async function getLunoTokenMYRPrice(ticker) {
-    if (ticker === 'BTC') {
-        ticker = 'XBT'
-    }
-    const data = await fetch(`https://api.luno.com/api/1/orderbook_top?pair=${ticker}MYR`)
-    const result = await data.json()
-    return Number((result.asks[0].price)).toFixed()
-    // https://www.branch.io/glossary/query-parameters/
-}
-
-async function getUSDMYRForexRate() {
-    var myHeaders = new Headers();
-    myHeaders.append("apikey", process.env.YOUR_API);
-
-    var requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-    headers: myHeaders
-    };
-
-    let data = await fetch('https://api.apilayer.com/fixer/latest?symbols=MYR&base=USD', requestOptions)
-    let convertData = await data.json()
-    return Number(convertData.rates['MYR'])
-}
-
 async function getLunoTokenUSDPrice(tokenMYR, rate) {
     return tokenMYR / rate
-}
-
-async function getBinanceUSDPrice(coinTicker) {
-    let ticker = await binance.prices()
-    return Number(ticker[`${coinTicker}BUSD`])
 }
 
 async function getPriceDifference(tokenLunoUSD, tokenBinanceUSD) {
