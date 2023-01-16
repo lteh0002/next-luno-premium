@@ -1,7 +1,7 @@
 import prompt from 'prompt'
 prompt.start()
 
-export default async function getUserPrompt() {
+export async function getUserPrompt() {
     let userInput = await prompt.get(['ticker']);
     let tokenTicker = (userInput.ticker).toUpperCase()
     let coin
