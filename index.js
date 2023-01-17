@@ -1,8 +1,8 @@
 import * as env from 'dotenv'
 env.config()
 import { getUserPrompt } from './userprompt.js'
-import getLunoTokenMYRPrice from './luno.js'
-import getUSDMYRForexRate from './forexrate.js'
+import {getLunoTokenMYRPrice} from './luno.js'
+import {getUSDMYRForexRate} from './forexrate.js'
 import { getBinanceUSDPrice }from './binance.js'
 
 function leftFillNum(num, targetLength) {

@@ -1,8 +1,9 @@
 const FOREX_RATE = 3.37
+const MOCK_STATUS_CODE = 500
 const MOCK_JSON_RESP = {rates: {'MYR': FOREX_RATE} }
 
 global.fetch = jest.fn(() => Promise.resolve({
-  status: 200,
+  status: MOCK_STATUS_CODE,
   json: () => Promise.resolve(MOCK_JSON_RESP)
 }));
 
