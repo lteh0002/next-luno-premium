@@ -1,5 +1,5 @@
 const FOREX_RATE = 3.37
-const MOCK_STATUS_CODE = 500
+const MOCK_FAILED_STATUS_CODE = 500
 const MOCK_JSON_RESP = {rates: {'MYR': FOREX_RATE} }
 
 import { getUSDMYRForexRate } from '../forexrate.js'
@@ -13,9 +13,9 @@ test("Returns the correct forex rate", async () => {
   expect(await getUSDMYRForexRate()).toBe(FOREX_RATE);
 });
 
-test("Returns the correct forex rate", async () => {
+test("Returns the error statement if fail to retrieve data", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
-    status: MOCK_STATUS_CODE,
+    status: MOCK_FAILED_STATUS_CODE,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
   

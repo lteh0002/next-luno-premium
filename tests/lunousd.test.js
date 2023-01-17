@@ -1,5 +1,5 @@
 import { getLunoTokenUSDPrice } from "../getlunousd";
 
-test("Returns Result for Price Difference", async () => {
+test("Returns Result for Luno token price in USD", async () => {
     expect(await getLunoTokenUSDPrice(30000, 3)).toBe(10000);
 });
