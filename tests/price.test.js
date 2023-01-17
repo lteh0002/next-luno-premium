@@ -1,5 +1,4 @@
-import { getPriceDifference } from "../lib/pricediff.js";
-import { getPricePremium } from "../lib/pricepremium.js";
+import { getPriceDifference, getPricePremium } from "../lib/pricecalc.js";
 
 test("Returns Result for price difference", async () => {
     expect(await getPriceDifference(30000, 10000)).toBe(20000);

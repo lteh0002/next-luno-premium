@@ -6,13 +6,8 @@ import { getLunoTokenMYRPrice } from './lib/luno.js'
 import { getUSDMYRForexRate } from './lib/forexrate.js'
 import { getBinanceUSDPrice }from './lib/binance.js'
 import { getLunoTokenUSDPrice } from './lib/getlunousd.js'
-import { getPriceDifference } from './lib/pricediff.js'
-import { getPricePremium } from './lib/pricepremium.js'
-
-//Function to justify final outcome of console.log of the results
-function leftFillNum(num, targetLength) {
-    return num.toString().padEnd(targetLength, ' ');
-}
+import { getPriceDifference, getPricePremium } from './lib/pricecalc.js'
+import { leftFillNum } from './lib/padding.js'
 
 //Function for printing results
 async function printStatement(userPrompt, tokenLunoMYR, USDMYR, tokenBinanceUSD, tokenLunoUSD,tokenPriceDiff, tokenPremium) {
