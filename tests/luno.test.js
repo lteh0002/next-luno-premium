@@ -17,5 +17,5 @@ test("Returns Message for failed Luno Response", async () => {
     status: MOCK_STATUS_CODE,
     json: () => { }
   }));
-  expect(await getLunoTokenMYRPrice()).toBe("Failed to retrieve price");
+  expect(await getLunoTokenMYRPrice()).toBe("Error: Failed to retrieve price");
 });

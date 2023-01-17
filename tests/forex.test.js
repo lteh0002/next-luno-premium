@@ -21,7 +21,7 @@ test("Returns the error statement if fail to retrieve data", async () => {
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
   
-  expect(await getUSDMYRForexRate()).toBe('Failed to retrieve data');
+  expect(await getUSDMYRForexRate()).toBe('Error: Failed to retrieve data');
 });
 
 test("Returns the error statement if API key is wrong", async () => {
@@ -30,7 +30,7 @@ test("Returns the error statement if API key is wrong", async () => {
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
   
-  expect(await getUSDMYRForexRate()).toBe('Please check your API Credential');
+  expect(await getUSDMYRForexRate()).toBe('Error: Please check your API Credential');
 });
 
 
@@ -40,7 +40,7 @@ test("Returns the error statement if API reached limit", async () => {
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
   
-  expect(await getUSDMYRForexRate()).toBe('Please check your API Daily/Monthly Limit');
+  expect(await getUSDMYRForexRate()).toBe('Error: Please check your API Daily/Monthly Limit');
 });
 
 

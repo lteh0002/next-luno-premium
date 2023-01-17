@@ -22,17 +22,17 @@ test("Returns price if Binance request succeeds", async () => {
     expect(await getBinancePrice(TOKEN)).toBe(test_number);
 });
 
-test("Returns error if Binance fail to request", async () => {
-  const getBinancePrice = require('../lib/binance.js').getBinanceUSDPrice // your function name could be different
-
+test("Returns error if Binance fail to request a ticker", async () => {
+  const getBinancePrice = require('../lib/binance.js').getBinanceUSDPrice // 
+  let TOKEN = 'XXX'
   jest.mock('node-binance-api', () => {
     return class Binance {
       prices() {
-        return new Promise(rej => {
-          rej(undefined)
+        return new Promise(res => {
+          res(NaN)
         })
       }
     }
   })
-  expect(await getBinancePrice()).toBe("Failed to retrieve price");
+  expect(await getBinancePrice(TOKEN)).toBe("Error: Failed to retrieve price");
 });
