@@ -1,24 +1,15 @@
 import * as env from 'dotenv'
 env.config()
 import { getUserPrompt } from './userprompt.js'
-import {getLunoTokenMYRPrice} from './luno.js'
-import {getUSDMYRForexRate} from './forexrate.js'
+import { getLunoTokenMYRPrice } from './luno.js'
+import { getUSDMYRForexRate } from './forexrate.js'
 import { getBinanceUSDPrice }from './binance.js'
+import { getLunoTokenUSDPrice } from './getlunousd.js'
+import { getPriceDifference } from './pricediff.js'
+import { getPricePremium } from './pricepremium.js'
 
 function leftFillNum(num, targetLength) {
     return num.toString().padEnd(targetLength, ' ');
-}
-
-async function getLunoTokenUSDPrice(tokenMYR, rate) {
-    return tokenMYR / rate
-}
-
-async function getPriceDifference(tokenLunoUSD, tokenBinanceUSD) {
-    return tokenLunoUSD - tokenBinanceUSD
-}
-
-async function getPricePremium(priceDiff, tokenLunoUSD) {
-    return (priceDiff / tokenLunoUSD) * 100
 }
 
 async function printStatement(userPrompt, tokenLunoMYR, USDMYR, tokenBinanceUSD, tokenLunoUSD,tokenPriceDiff, tokenPremium) {

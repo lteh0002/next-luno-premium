@@ -9,6 +9,11 @@ export async function getUSDMYRForexRate() {
     };
 
     let data = await fetch('https://api.apilayer.com/fixer/latest?symbols=MYR&base=USD', requestOptions)
-    let convertData = await data.json()
-    return Number(convertData.rates['MYR'])
+    if (data.status !== 200) {
+        return 'Failed to retrieve data'
+    } else {
+        let convertData = await data.json()
+        return Number(convertData.rates['MYR'])
+    }
+    
 }

@@ -10,7 +10,5 @@ export async function getLunoTokenMYRPrice(ticker) {
         const result = await data.json()
         return +((result.asks[0].price))
     }
-
-    // return result.asks //testing
     // https://www.branch.io/glossary/query-parameters/
 }
