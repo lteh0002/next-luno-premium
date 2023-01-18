@@ -19,7 +19,7 @@ test("Returns price if Binance request succeeds", async () => {
       }
     }
   })
-    expect(await getBinancePrice(TOKEN)).toBe(test_number);
+    expect(await getBinancePrice(TOKEN)).toEqual([true, test_number]);
 });
 
 test("Returns error if Binance fail to request a ticker", async () => {
@@ -34,5 +34,5 @@ test("Returns error if Binance fail to request a ticker", async () => {
       }
     }
   })
-  expect(await getBinancePrice(TOKEN)).toBe("Error: Failed to retrieve price");
+  expect(await getBinancePrice(TOKEN)).toEqual([false, "Error: Failed to retrieve price"]);
 });
