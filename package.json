@@ -5,7 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "start": "node index.js",
+    "test": "jest --silent",
+    "test:watch": "jest --watchAll --silent",
+    "test:cov": "jest --collect-coverage --silent"
   },
   "author": "",
   "license": "ISC",
