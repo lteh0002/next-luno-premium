@@ -22,7 +22,7 @@ test("Returns price if Binance request succeeds", async () => {
     expect(await getBinancePrice(TOKEN)).toEqual([true, test_number]);
 });
 
-test("Returns error if Binance fail to request a ticker", async () => {
+test("Returns error if Binance fail to request due to invalid ticker", async () => {
   const getBinancePrice = require('../lib/binance.js').getBinanceUSDPrice // 
   let TOKEN = 'XXX'
   jest.mock('node-binance-api', () => {
@@ -34,5 +34,6 @@ test("Returns error if Binance fail to request a ticker", async () => {
       }
     }
   })
-  expect(await getBinancePrice(TOKEN)).toEqual([false, "Error: Failed to retrieve price"]);
+  expect.assertions(1)
+  expect(await getBinancePrice(TOKEN)).toEqual([false, 'Coin ticker not found or no price available']);
 });

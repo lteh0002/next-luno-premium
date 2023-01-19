@@ -11,7 +11,7 @@ test("Returns the correct forex rate", async () => {
     status: 200,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
-
+  expect.assertions(1)
   expect(await getUSDMYRForexRate()).toEqual([true, FOREX_RATE]);
 });
 
@@ -20,7 +20,7 @@ test("Returns the error statement if fail to retrieve data", async () => {
     status: MOCK_FAILED_ANYSTATUS_CODE,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
-  
+  expect.assertions(1)
   expect(await getUSDMYRForexRate()).toEqual([false, 'Error: Failed to retrieve data']);
 });
 
@@ -29,7 +29,7 @@ test("Returns the error statement if API key is wrong", async () => {
     status: MOCK_API_WRONG,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
-  
+  expect.assertions(1)
   expect(await getUSDMYRForexRate()).toEqual([false , 'Error: Please ensure your API Credential/Key is Correct'])
 });
 
@@ -39,7 +39,7 @@ test("Returns the error statement if API reached limit", async () => {
     status: MOCK_API_LIMIT,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
-  
+  expect.assertions(1)
   expect(await getUSDMYRForexRate()).toEqual([false , 'Error: Please check your API Daily/Monthly Limit']);
 });
 

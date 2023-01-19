@@ -9,6 +9,7 @@ test("Returns the correct ask price for Luno", async () => {
     status: 200,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
+  expect.assertions(1)
   expect(await getLunoTokenMYRPrice()).toEqual([true, ASK_PRICE]);
 });
 
@@ -17,5 +18,6 @@ test("Returns Message for failed Luno Response", async () => {
     status: MOCK_STATUS_CODE,
     json: () => { }
   }));
+  expect.assertions(1)
   expect(await getLunoTokenMYRPrice()).toEqual([false, "Error: Failed to retrieve price"]);
 });
