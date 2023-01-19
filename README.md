@@ -1,5 +1,5 @@
 # Luno Premium
-An crypto-related app that gets the price premium between two crypto exchanges Luno and Binance as there are always differences between these crypto exchanges. This project is to demonstrate my knowledge in Vanilla JavaScript from NEXT Academy Bootcamp. 
+An crypto-related program that gets the price premium between two crypto exchanges Luno and Binance as there are always differences between these crypto exchanges. This project is to demonstrate my knowledge in Vanilla JavaScript from NEXT Academy Bootcamp. 
 
 The project utilizes async/await functionality to fetch real-time crypto prices, includes unit and integration testing to ensure proper functionality and utilizes API endpoint to retrieve data." 
 
