@@ -8,6 +8,7 @@ import { getUSDMYRForexRate } from '../lib/forexrate.js'
 
 test("Returns the correct forex rate", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: true,
     status: 200,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
@@ -17,6 +18,7 @@ test("Returns the correct forex rate", async () => {
 
 test("Returns the error statement if fail to retrieve data", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: false,
     status: MOCK_FAILED_ANYSTATUS_CODE,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
@@ -26,6 +28,7 @@ test("Returns the error statement if fail to retrieve data", async () => {
 
 test("Returns the error statement if API key is wrong", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: false,
     status: MOCK_API_WRONG,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
@@ -36,6 +39,7 @@ test("Returns the error statement if API key is wrong", async () => {
 
 test("Returns the error statement if API reached limit", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: false,
     status: MOCK_API_LIMIT,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));

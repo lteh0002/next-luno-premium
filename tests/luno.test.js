@@ -6,6 +6,7 @@ import { getLunoTokenMYRPrice } from '../lib/luno.js'
 
 test("Returns the correct ask price for Luno", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: true,
     status: 200,
     json: () => Promise.resolve(MOCK_JSON_RESP)
   }));
@@ -15,6 +16,7 @@ test("Returns the correct ask price for Luno", async () => {
 
 test("Returns Message for failed Luno Response", async () => {
   global.fetch = jest.fn(() => Promise.resolve({
+    ok: false,
     status: MOCK_STATUS_CODE,
     json: () => { }
   }));

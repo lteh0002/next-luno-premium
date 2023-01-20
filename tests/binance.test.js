@@ -29,7 +29,7 @@ test("Returns error if Binance fail to request due to invalid ticker", async () 
     return class Binance {
       prices() {
         return new Promise(res => {
-          res(undefined)
+          res(NaN)
         })
       }
     }
